@@ -8,35 +8,22 @@ def get_files_from_directory(directory):
     """
     if not os.path.exists(directory) or not os.path.isdir(directory):
         raise RuntimeError("Folder does not exist")
-    return [os.path.join(directory, file) for file in os.listdir(directory) if os.path.isfile(os.path.join(directory, file))]
+    return [os.path.join(directory, file) for file in os.listdir(directory) if
+            os.path.isfile(os.path.join(directory, file))]
 
 
-def is_title(input):
-    if input is None:
-        return False
-    regex = r"^\[\[(.*?)]]$"
-    return re.match(regex, input) is not None
+def preprocess_file_content(text):
+    """
+    Preprocess the file content to remove template patterns, [ref][/ref] tags, and link tags along with their enclosed
+    content.
+    """
+    template_tag_pattern = r'\[tpl\].*?\[/tpl\]'
+    ref_tag_pattern = r'\[ref\].*?\[/ref\]'
+    url_pattern = r'http\S+|www.\S+'
 
+    # Remove the matched patterns from the text
+    cleaned_text = re.sub(template_tag_pattern, '', text, flags=re.DOTALL)
+    cleaned_text = re.sub(ref_tag_pattern, '', cleaned_text, flags=re.DOTALL)
+    cleaned_text = re.sub(url_pattern, '', cleaned_text, flags=re.DOTALL)
 
-def retrieve_title(input):
-    return input.strip("[]")
-
-
-def is_category_line(input):
-    if input is None:
-        return False
-    return input.startswith("CATEGORIES:")
-
-
-def tokenize_category_line(input):
-    return input[len("CATEGORIES: "):].split(", ")
-
-
-def is_redirect_line(input):
-    if input is None:
-        return False
-    return input.startswith("#REDIRECT ") or input.startswith("#redirect ")
-
-
-def get_redirect_page_title(input):
-    return input[len("#REDIRECT "):]
+    return cleaned_text
