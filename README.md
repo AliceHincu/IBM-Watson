@@ -1,5 +1,7 @@
 
-**Project**
+# Project
+
+## Description
 
 In this project, we created a system that was modeled after IBM Watson's approach to answering
 to Jeopardy questions. The system's main goal was to build an extensive database of information
@@ -9,7 +11,7 @@ Reciprocal Rank (MRR), the system assesses its performance on Jeopardy-style clu
 goal of identifying the most accurate responses.
 
 
-**How to run project**
+## How to run project
 
  - First of all, install python (it works both with 3.8, 3.9 and 3.11).
  - Second of all, you will need to clone the project using the following command (make sure to check out to the branch master after the project is done cloning):
