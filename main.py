@@ -50,3 +50,5 @@ if __name__ == '__main__':
             run_default_questions()
         elif option == '0':
             running = False
+        else:
+            print("Wrong command!")
