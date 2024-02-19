@@ -29,3 +29,17 @@ goal of identifying the most accurate responses.
    ```
    python main.py
    ```
+
+## Project's menu
+
+When the project is started, a menu is printed for the user.
+The menu contains the following commands:
+
+- ```1``` starts the indexing for the project
+- ```2``` runs the questions found in the ```questions.txt``` file and prints the results on the screen
+- ```0``` exists the program
+
+If the user introduces a wrong command, a message ```Wrong command!``` will be printed on the screen.
+
+
+   
