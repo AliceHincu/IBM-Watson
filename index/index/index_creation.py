@@ -1,19 +1,19 @@
 import os
 
-from whoosh.analysis import StemmingAnalyzer, RegexTokenizer, LowercaseFilter, StopFilter, StemFilter, CharsetFilter
+from whoosh.analysis import RegexTokenizer, LowercaseFilter, StopFilter, CharsetFilter
 from whoosh.fields import Schema, TEXT, KEYWORD
 from whoosh.index import create_in
 from whoosh.support.charset import accent_map
 
+from index.index.Lemmatizer import Lemmatizer
 from index.utils.utils import get_files_from_directory
 from index.wikipedia_page.WikipediaPageParser import WikiPageParser
 from nltk.corpus import stopwords
 
-
 wiki_directory_path = 'wikipedia_pages'
-index_directory_path = 'indexdir7'
+index_directory_path = 'indexdir8'
 ENGLISH_STOP_WORDS = set(stopwords.words('english'))
-custom_analyzer = (RegexTokenizer() | LowercaseFilter() | StopFilter(stoplist=ENGLISH_STOP_WORDS) | StemFilter() |
+custom_analyzer = (RegexTokenizer() | LowercaseFilter() | StopFilter(stoplist=ENGLISH_STOP_WORDS) | Lemmatizer() |
                    CharsetFilter(accent_map))
 
 
@@ -36,8 +36,8 @@ def create_index(wikipedia_directory=wiki_directory_path,index_path=index_direct
         index_path (str): The directory path where the search index will be stored.
     """
     schema = Schema(
-        title=TEXT(stored=True, analyzer=StemmingAnalyzer()),
-        content=TEXT(analyzer=StemmingAnalyzer()),
+        title=TEXT(stored=True, analyzer=custom_analyzer),
+        content=TEXT(analyzer=custom_analyzer),
         category=KEYWORD(commas=True, scorable=True, stored=True)
     )
 

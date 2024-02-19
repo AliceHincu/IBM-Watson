@@ -5,9 +5,11 @@ from whoosh.qparser import MultifieldParser, OrGroup
 from whoosh.lang import porter
 from nltk.corpus import wordnet as wn
 
+from index.index.index_creation import custom_analyzer
+
 
 class QueryRunner:
-    def __init__(self, index_path='indexdir7'):
+    def __init__(self, index_path='indexdir8'):
         self.index_path = index_path
 
     def preprocess_with_analyzer(self, text, analyzer):
@@ -45,10 +47,9 @@ class QueryRunner:
         directory = open_dir(self.index_path)
         searcher = directory.searcher()
 
-        # Assuming use of StemmingAnalyzer for consistency and preprocessing
-        analyzer = StemmingAnalyzer()
+        analyzer = custom_analyzer
         preprocessed_clue = self.preprocess_with_analyzer(clue, analyzer)
-        preprocessed_category = self.preprocess_with_analyzer(category.split("(")[0].strip(), analyzer) # STATE OF THE ART MUSEUM
+        preprocessed_category = category.split("(")[0].strip().replace('"', '')
 
         query_string = f"({preprocessed_clue}) OR ({preprocessed_category})"
 
@@ -56,10 +57,10 @@ class QueryRunner:
         query = parser.parse(query_string)
 
         results = searcher.search(query, limit=10)
-        print(f"Found {len(results)} hits.")
 
         correct_answers = set(answer.split("|"))
         result_rank = 0
+
         for i, hit in enumerate(results):
             if hit['title'] in correct_answers:
                 result_rank = i + 1

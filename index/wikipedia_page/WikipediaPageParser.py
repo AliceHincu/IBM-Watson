@@ -50,7 +50,7 @@ class WikiPageParser:
 
     def process_page(self, page_content):
         """
-        Processes the content of a single page. The page content is expected to be a stringwhere different elements of
+        Processes the content of a single page. The page content is expected to be a string where different elements of
         the page such as the title, categories, and body are separated by newline characters. This method parses through
         each line to identify and set the title, categories, and body of a WikipediaPage object. It also identifies
         redirect lines and stores any found redirects in the redirect_page_titles dictionary.

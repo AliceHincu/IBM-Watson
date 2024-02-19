@@ -2,6 +2,8 @@ import os
 import re
 
 
+choice = ""
+
 def get_files_from_directory(directory):
     """
     Get all files from a directory
